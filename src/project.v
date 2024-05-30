@@ -8,7 +8,7 @@
 `include "sea_de.v"
 `include "sbox.v"
 module  tt_um_example( rst_n,ena,clk,li, ri, ki, lio, rio );
-    input rstn;
+    input rst_n;
     input clk;
     input ena;
     input [47:0]  li ;
