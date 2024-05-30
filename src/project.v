@@ -7,11 +7,11 @@
 `include "sea_en.v"
 `include "sea_de.v"
 `include "sbox.v"
-module  tt_um_scalable( rst_n,ena,clk,ui_in, ri, ki, lio, rio );
+module  tt_um_scalable( rst_n,ena,clk,li, ri, ki, lio, rio );
     input rst_n;
     input clk;
     input ena;
-    input [47:0]  ui_in ;
+    input [47:0]  li ;
     input [47:0]  ri ;
     input [47:0]  ki ;
     output [47:0]  lio ;
@@ -23,11 +23,11 @@ module  tt_um_scalable( rst_n,ena,clk,ui_in, ri, ki, lio, rio );
     wire [47:0] lio;
     wire [47:0] rio;
 
-    assign nli = (rst_n == 1'b0) ? 48'b0 : (ena ? ui_in : nli);  // Reset nli to 48'b0 when rstn is active low, otherwise pass ui_in or keep nli unchanged
+    assign nli = (rst_n == 1'b0) ? 48'b0 : (ena ? li : nli);  // Reset nli to 48'b0 when rstn is active low, otherwise pass li or keep nli unchanged
     assign nri = (rst_n == 1'b0) ? 48'b0 : (ena ? ri : nri);  // Reset nri to 48'b0 when rstn is active low, otherwise pass ri or keep nri unchanged
-    sea_en x0(.clk(clk), .ui_in(ui_in), .ri(ri), .ki(ki), .nli(nli), .nri(nri));
+    sea_en x0(.clk(clk), .li(li), .ri(ri), .ki(ki), .nli(nli), .nri(nri));
    
-    sea_de x1(.clk(clk), .nli(nli), .nri(nri), .ki(ki), .ui_in(lio), .ri(rio));
+    sea_de x1(.clk(clk), .nli(nli), .nri(nri), .ki(ki), .li(lio), .ri(rio));
   
 
 endmodule
