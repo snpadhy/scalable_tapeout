@@ -7,7 +7,8 @@
 `include "sea_en.v"
 `include "sea_de.v"
 `include "sbox.v"
-module  tt_um_example( li, ri, ki, lio, rio );
+module  tt_um_example( clk,li, ri, ki, lio, rio );
+    input clk;
     input [47:0]  li ;
     input [47:0]  ri ;
     input [47:0]  ki ;
@@ -22,9 +23,9 @@ module  tt_um_example( li, ri, ki, lio, rio );
 
 
     
-   sea_en x0(.li(li), .ri(ri), .ki(ki), .nli(nli), .nri(nri));
+    sea_en x0(.clk(clk), .li(li), .ri(ri), .ki(ki), .nli(nli), .nri(nri));
    
-   sea_de x1(.nli(nli), .nri(nri), .ki(ki), .li(lio), .ri(rio));
+    sea_de x1(.clk(clk), .nli(nli), .nri(nri), .ki(ki), .li(lio), .ri(rio));
     
 
 endmodule
