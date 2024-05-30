@@ -1,5 +1,5 @@
-module  sea_en ( li, ri, ki, nli, nri );
-    
+module  sea_en (clk, li, ri, ki, nli, nri );
+    input clk;
     input [47:0]  li ;
     input [47:0]  ri ;
     input [47:0]  ki ;
