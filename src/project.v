@@ -22,13 +22,10 @@ module  tt_um_example( ena,clk,li, ri, ki, lio, rio );
     wire [47:0] lio;
     wire [47:0] rio;
 
-parameter CONDITION = 1'b1;
-genvar i;
-generate
-    if (ena==CONDITION) begin    
+   
     sea_en x0(.clk(clk), .li(li), .ri(ri), .ki(ki), .nli(nli), .nri(nri));
    
     sea_de x1(.clk(clk), .nli(nli), .nri(nri), .ki(ki), .li(lio), .ri(rio));
-    end
+  
 
 endmodule
