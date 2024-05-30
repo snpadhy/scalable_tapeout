@@ -14,32 +14,62 @@ module tb ();
   end
 
   // Wire up the inputs and outputs:
-  reg clk;
-  reg rst_n;
-  reg ena;
-  reg [7:0] ui_in;
-  reg [7:0] uio_in;
-  wire [7:0] uo_out;
-  wire [7:0] uio_out;
-  wire [7:0] uio_oe;
-
-  // Replace tt_um_example with your module name:
-  tt_um_example user_project (
-
-      // Include power ports for the Gate Level test:
-`ifdef GL_TEST
-      .VPWR(1'b1),
-      .VGND(1'b0),
-`endif
-
-      .ui_in  (ui_in),    // Dedicated inputs
-      .uo_out (uo_out),   // Dedicated outputs
-      .uio_in (uio_in),   // IOs: Input path
-      .uio_out(uio_out),  // IOs: Output path
-      .uio_oe (uio_oe),   // IOs: Enable path (active high: 0=input, 1=output)
-      .ena    (ena),      // enable - goes high when design is selected
-      .clk    (clk),      // clock
-      .rst_n  (rst_n)     // not reset
+  reg [47:0] li_tb;
+  reg [47:0] ri_tb;
+  reg [47:0] ki_tb;
+  
+  
+  // Outputs
+  wire [47:0] lio_tb;
+  wire [47:0] rio_tb;
+  
+  // Instantiate the module under test
+  tt_um_example dut (
+     .clk(clk),
+    .li(li_tb),
+    .ri(ri_tb),
+    .ki(ki_tb),
+    .lio(lio_tb),
+    .rio(rio_tb)
   );
+  
+  // Generate clock
 
+  reg clk = 0;
+  always #5 clk = ~clk;  // Toggle clock every 5 time units
+
+  // Testbench code
+  integer i;
+  initial begin
+    // Initialize inputs
+    li_tb = 48'h000000000000;  // Initial left input
+    ri_tb = 48'h111111111111;  // Initial right input
+    ki_tb = 48'h123456789abc;  // Initial key
+    
+    // Apply stimulus and monitor outputs
+    for (i = 0; i < NUM_TESTS; i = i + 1) begin
+      // Display test number
+      $display("Test %0d:", i);
+      
+      // Display inputs
+      $display("  Input:  LI=%h, RI=%h, KI=%h", li_tb, ri_tb, ki_tb);
+      
+      // Apply inputs
+      #1;  // Wait for 1 time unit
+      // Generate test vectors for inputs (you can adjust these)
+      li_tb = $random;
+      ri_tb = $random;
+      ki_tb = $random;
+      
+      // Wait for a few clock cycles for outputs to stabilize
+      #10;
+      
+      // Display outputs
+      $display("  Output: LIO=%h, RIO=%h", lio_tb, rio_tb);
+    end
+    
+    // End simulation
+    $finish;
+  end
 endmodule
+
