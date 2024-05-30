@@ -7,7 +7,7 @@
 `include "sea_en.v"
 `include "sea_de.v"
 `include "sbox.v"
-module  tt_um_example( rst_n,ena,clk,ui_in, ri, ki, lio, rio );
+module  tt_um_scalable( rst_n,ena,clk,ui_in, ri, ki, lio, rio );
     input rst_n;
     input clk;
     input ena;
